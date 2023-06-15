@@ -23,9 +23,12 @@ export class DesignTokenNode {
         return node;
     }
 
-    public setTokenValue(token: DesignToken<any>, value: any, override: boolean) {
-        if (!override && this._values.has(token))
-            return;
+    public setTokenValue(
+        token: DesignToken<any>,
+        value: any,
+        override: boolean
+    ) {
+        if (!override && this._values.has(token)) return;
 
         this._values.delete(token);
         this._values.set(token, value);
@@ -33,19 +36,24 @@ export class DesignTokenNode {
     }
 
     private applyTokens() {
-        if (this._debounceTimer)
+        if (this._debounceTimer) {
             window.clearTimeout(this._debounceTimer);
+            this._debounceTimer = null;
+        }
 
         const target = this._target;
 
         this._debounceTimer = window.setTimeout(() => {
             if (target instanceof HTMLElement) {
                 this._values.forEach((value, token) => {
-                    target.style.setProperty(`--${token.name}`, value.toString());
+                    target.style.setProperty(
+                        `--${token.name}`,
+                        value.toString()
+                    );
                 });
                 return;
             }
-            
+
             let rulesStr = '';
             this._values.forEach((value, token) => {
                 rulesStr += `--${token.name}: ${value};`;
@@ -59,8 +67,11 @@ export class DesignTokenNode {
             }
 
             const rootRule = `:root {${rulesStr}}`;
-            DesignToken.rootIndex = styleSheet.insertRule(rootRule, rootIndex ?? styleSheet.cssRules.length);
-        }, 200);
+            DesignToken.rootIndex = styleSheet.insertRule(
+                rootRule,
+                rootIndex ?? styleSheet.cssRules.length
+            );
+        }, 50);
     }
 }
 
