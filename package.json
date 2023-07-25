@@ -1,6 +1,6 @@
 {
     "name": "@sagemodeninja/design-token-provider",
-    "version": "0.1.1-alpha.5",
+    "version": "1.0.0",
     "description": "Manage design tokens in your web applications.",
     "main": "dist/design-token-provider.js",
     "types": "src/@types/design-token-provider.d.ts",
